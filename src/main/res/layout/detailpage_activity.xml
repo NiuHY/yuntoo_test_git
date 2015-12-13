@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <WebView
+        android:id="@+id/detailpage_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageButton
+        android:id="@+id/bt_back"
+        android:background="@drawable/icon_back_bg_red"
+        android:padding="2dp"
+        android:src="@drawable/icon_back"
+        android:layout_margin="20dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"/>
+
+</FrameLayout>
