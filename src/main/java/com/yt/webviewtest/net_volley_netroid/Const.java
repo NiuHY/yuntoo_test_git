@@ -10,6 +10,8 @@ public class Const {
     public static final String HTTP_DISK_CACHE_DIR_NAME = "yt_sjt";
     public static final String USER_AGENT = "netroid.cn";
 
+    //编码
+    public static final String UTF_8 = "UTF-8";
     // 基本url
     public static final String BASE_URL = "http://192.168.0.170:8080/yt/search.json";
 }

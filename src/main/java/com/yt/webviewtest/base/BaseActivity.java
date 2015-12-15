@@ -129,25 +129,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     //进入动画
-//    @Override
     public void setEnterSwichLayout() {
-//        SwitchLayout.get3DRotateFromRight(this, false, BaseEffects.getMoreQuickEffect());
-//        SwitchLayout.getSlideFrzomRight(this, false, null);
-
-//        TranslateAnimation transAnim = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 1.0f,
-//                Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT,
-//                0, Animation.RELATIVE_TO_PARENT, 0);
-//        transAnim.setFillAfter(true);
-//        transAnim.setDuration(700L);
-//        contentView.setAnimation(transAnim);
         overridePendingTransition(R.anim.setg_next_in, R.anim.setg_next_out);
     }
     //退出动画
-//    @Override
     public void setExitSwichLayout() {
-//        SwitchLayout.get3DRotateFromLeft(this, true, BaseEffects.getMoreQuickEffect());
-//        SwitchLayout.getSlideToRight(this, true, null);
-        //
         finish();
         overridePendingTransition(R.anim.setg_pre_in, R.anim.setg_pre_out);
     }

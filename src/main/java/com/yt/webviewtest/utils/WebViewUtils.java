@@ -1,5 +1,8 @@
 package com.yt.webviewtest.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebSettings;
@@ -16,10 +19,28 @@ import com.yt.webviewtest.SafeWebViewBridge.js.JsScope;
  */
 public class WebViewUtils {
 
-    public static void webViewBaseSet(WebView webView) {
-        WebSettings settings = webView.getSettings();
+    private static Context context;
+
+    private static WebSettings settings;
+
+    public static void webViewBaseSet(final WebView webView) {
+
+        context = webView.getContext();
+
+        settings = webView.getSettings();
+
+        //图片不自动加载，在网页加载完成后才加载
+        if(Build.VERSION.SDK_INT >= 19) {
+            settings.setLoadsImagesAutomatically(true);
+        } else {
+            settings.setLoadsImagesAutomatically(false);
+        }
         //JS可用
         settings.setJavaScriptEnabled(true);
+        //可以通过触摸获取焦点
+        webView.requestFocusFromTouch();
+        //页面大小自适应
+        settings.setLoadWithOverviewMode(true);
 //        //背景透明
 //        webView.setBackgroundColor(Color.alpha(0xff000000));
 
@@ -30,6 +51,29 @@ public class WebViewUtils {
                 super.shouldOverrideUrlLoading(view, url);
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                //加载完成开启图片自动加载
+                if(!settings.getLoadsImagesAutomatically()) {
+                    settings.setLoadsImagesAutomatically(true);
+                }
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+
+            }
+
+            //自定义出错界面
+            @Override
+            public void onReceivedError (WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+
+                //显示加载错误页面，(重新加载按钮)
             }
         });
 
@@ -61,7 +105,8 @@ public class WebViewUtils {
         public void onProgressChanged (WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
             // TODO  code
-            // ...
+            // 当进度条走完，才
+
         }
 
         @Override

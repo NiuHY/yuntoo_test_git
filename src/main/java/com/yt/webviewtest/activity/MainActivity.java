@@ -45,6 +45,25 @@ public class MainActivity extends BaseActivity {
         //三个页面用 Fragment填充(容易控制)
         // 设置适配器，默认显示中间页
         viewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager()));
+
+        //设置页面切换监听，关联webView
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //给Activity的当前的Fragment 注册webView
+                setWebView(FragmentFactory.createFragment(position).getWebView());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 

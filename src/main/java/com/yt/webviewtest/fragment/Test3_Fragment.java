@@ -1,10 +1,7 @@
 package com.yt.webviewtest.fragment;
 
-import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 
-import com.yt.webviewtest.R;
 import com.yt.webviewtest.base.BaseFragment;
 
 
@@ -14,18 +11,9 @@ import com.yt.webviewtest.base.BaseFragment;
 public class Test3_Fragment extends BaseFragment {
     private static final String TAG = "Test3_Fragment";
 
+
     @Override
-    protected void initFragmentData(Bundle savedInstanceState) {
-        // 测试加载
+    protected void setUrl(WebView webView) {
         webView.loadUrl("file:///android_asset/test.html");
-    }
-
-
-    @Override
-    protected View initFragmentView() {
-        View view =  View.inflate(getActivity(), R.layout.main_vp_fragment, null);
-        webView = (WebView) view.findViewById(R.id.main_fm_webview);
-
-        return view;
     }
 }

@@ -18,9 +18,9 @@ public abstract class BaseFragment extends Fragment {
     private View fragmentContentView;
 
     /**
-     * 子类中的XWalkView，在initView中初始化
+     * 每个页面对应的WebView
      */
-    protected WebView webView;
+    private WebView webView;
 
     // 初始化布局
     @Override
@@ -36,35 +36,32 @@ public abstract class BaseFragment extends Fragment {
         return fragmentContentView;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        //初始化WebView
-        if (webView != null){
-
-            WebViewUtils.webViewBaseSet(webView);
-
-            //Android 调 JS  loadUrl("javascript:funFromjs()");  调JS 中的 funFromjs()方法
-
-            //给Activity的返回键点击 注册webView
-            ((BaseActivity) getActivity()).setWebView(webView);
-        }
-
-        // 初始化数据
-        initFragmentData(savedInstanceState);
-
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    /**
-     * //这里初始化数据
-     * @param savedInstanceState Activity创建时候保存的信息
-     */
-    protected abstract void initFragmentData(Bundle savedInstanceState);
-
     /**
      * 给子类重写，需要返回这个Fragment的内容布局
      * @return Fragment的内容布局
      */
-    protected abstract View initFragmentView();
+//    protected abstract View initFragmentView();
 
+    //初始化WebView
+    private View initFragmentView(){
+        //初始化webView
+        webView = new WebView(getActivity());
+        WebViewUtils.webViewBaseSet(webView);//webView设置初始化
+        //通过子类重写，加载对应的url
+        setUrl(webView);
+        return webView;
+    }
+
+    /**
+     * 子类通过重写这个方法设置不同的url
+     * @param webView 当前页面的 webView
+     */
+    protected abstract void setUrl(WebView webView);
+
+    /**
+     * @return 给外界获取 webview
+     */
+    public WebView getWebView() {
+        return webView;
+    }
 }

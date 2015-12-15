@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.yt.webviewtest.R;
 import com.yt.webviewtest.base.BaseActivity;
 import com.yt.webviewtest.base.BaseApplication;
 
@@ -126,10 +129,13 @@ public class UIUtils {
 				.getForegroundActivity();
 		if (activity != null) {
 			activity.startActivity(intent);
+			// 开启动画
+			activity.overridePendingTransition(R.anim.setg_next_in, R.anim.setg_next_out);
 		} else {
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getContext().startActivity(intent);
 		}
+
 	}
 
 	/** 对toast的简易封装。线程安全，可以在非UI线程调用。 */
@@ -178,5 +184,27 @@ public class UIUtils {
 		if (myToast != null){
 			myToast.cancel();
 		}
+	}
+
+	/**
+	 * 在当前Activity上弹出窗口，通过传入view 和 windowManager 弹出，在外界控制显示
+	 * @param windowManager 当前Activity对应的 windowManager
+	 * @param contentView 当前窗口要显示的内容
+	 */
+	public static void showWindow(WindowManager windowManager, View contentView){
+
+		// 设置布局参数
+		WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+		//宽高填充
+		params.height = WindowManager.LayoutParams.MATCH_PARENT;
+		params.width = WindowManager.LayoutParams.MATCH_PARENT;
+		//全屏 要有WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE，好像因为这个才能相应返回键？
+		params.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+		//透明窗体
+		params.format = PixelFormat.TRANSPARENT;
+		//普通应用程序窗口
+		params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
+		//添加
+		windowManager.addView(contentView, params);
 	}
 }

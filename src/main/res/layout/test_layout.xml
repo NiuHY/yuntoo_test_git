@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:background="#dd000000"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/test_tv"
-        android:textColor="#ff0000"
-        android:text="测试json"
-        android:layout_gravity="center"
-
-        android:ellipsize="marquee"
+    <com.yt.webviewtest.ui.ExtendedViewPager
+        android:id="@+id/evp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"></com.yt.webviewtest.ui.ExtendedViewPager>
 
-    <GridView
-        android:id="@+id/test_gv"
-        android:numColumns="2"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </GridView>
-
-</LinearLayout>
+</FrameLayout>
