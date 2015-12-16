@@ -36,6 +36,16 @@ public class NetUtils {
     }
 
     /**
+     * 请求网络 返回数据的字节数组 加载gif图片
+     * @param url
+     * @param listener
+     */
+    public static void getByteByNet(String url, Listener<byte[]> listener){
+        ByteRequest byteRequest = new ByteRequest(url, listener);
+        Netroid.getmRequestQueue().add(byteRequest);
+    }
+
+    /**
      * 给服务器传一个字符串
      * @param url 地址
      * @param requestDataMap 请求参数(字符串)

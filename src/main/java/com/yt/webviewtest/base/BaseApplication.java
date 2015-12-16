@@ -24,10 +24,25 @@ public class BaseApplication extends Application {
     //Looper
     private static Looper mLooper;
 
+    //
+    private static boolean initFlag = false;
+    private static int a = 1;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        if (! initFlag){
+            init();
+            initFlag = true;
+//            UIUtils.showToastSafe("++"+a++);
+        }
+
+
+    }
+
+    // 初始化
+    private void init() {
         // Netroid初始化
         Netroid.init(this);
 

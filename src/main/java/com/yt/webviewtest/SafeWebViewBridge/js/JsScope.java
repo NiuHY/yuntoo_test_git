@@ -183,8 +183,18 @@ public class JsScope {
     public static void startImgPreview(WebView webView, String imgsJson, int index) {
         Context context = webView.getContext();
         if (context instanceof DetailPageActivity) {
-            ((DetailPageActivity) context).showVPWindow(imgsJson, index);
+//            UIUtils.showToastSafe(imgsJson);
+//            System.out.println("================== " + imgsJson);
+              ((DetailPageActivity) context).showVPWindow(imgsJson, index);
         }
+    }
+
+    /**
+     *
+     * @param webView
+     */
+    public static void contentLoad(WebView webView){
+        UIUtils.showToastSafe("加载完毕");
     }
 
 }

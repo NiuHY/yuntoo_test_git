@@ -117,7 +117,6 @@ public class MyNetWorkObject {
             }
         }
 
-
         // 请求JSON数据
         StringRequest request = new StringRequest(url, new Listener<String>() {
             @Override

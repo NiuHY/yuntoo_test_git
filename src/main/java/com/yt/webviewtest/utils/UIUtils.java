@@ -34,9 +34,9 @@ public class UIUtils {
 	/**
 	 * dip -> px
 	 */
-	public static int dip2Px(Context context, int dp){
+	public static int dip2Px(int dp){
 		//获取屏幕显示规格密度
-		float scale = context.getResources().getDisplayMetrics().density;
+		float scale = getContext().getResources().getDisplayMetrics().density;
 		int px = (int) (dp * scale + 0.5);
 		return px;
 	}
@@ -44,9 +44,9 @@ public class UIUtils {
 	/**
 	 * px -> dip
 	 */
-	public static int px2Dip(Context context, int px){
+	public static int px2Dip(int px){
 		//获取屏幕显示规格密度
-		float scale = context.getResources().getDisplayMetrics().density;
+		float scale = getContext().getResources().getDisplayMetrics().density;
 		int dp = (int) (px / scale + 0.5);
 		return dp;
 	}

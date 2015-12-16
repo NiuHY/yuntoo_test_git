@@ -50,7 +50,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             />
-
+<!--  android:process=":detailPage"  -->
         <!-- 分享页 -->
         <activity
             android:name="com.mob.tools.MobUIShell"

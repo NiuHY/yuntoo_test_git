@@ -25,6 +25,8 @@ public class WebViewUtils {
 
     public static void webViewBaseSet(final WebView webView) {
 
+//        webView.reload();
+
         context = webView.getContext();
 
         settings = webView.getSettings();
@@ -37,6 +39,8 @@ public class WebViewUtils {
         }
         //JS可用
         settings.setJavaScriptEnabled(true);
+        //给webView 关联 需要JS调用的类
+        webView.setWebChromeClient(new MyWebChromeClient("ADS", JsScope.class));
         //可以通过触摸获取焦点
         webView.requestFocusFromTouch();
         //页面大小自适应
@@ -50,16 +54,17 @@ public class WebViewUtils {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 super.shouldOverrideUrlLoading(view, url);
                 view.loadUrl(url);
-                return true;
+                return false;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 //加载完成开启图片自动加载
-                if(!settings.getLoadsImagesAutomatically()) {
+                if (!settings.getLoadsImagesAutomatically()) {
                     settings.setLoadsImagesAutomatically(true);
                 }
+
             }
 
             @Override
@@ -70,15 +75,14 @@ public class WebViewUtils {
 
             //自定义出错界面
             @Override
-            public void onReceivedError (WebView view, int errorCode, String description, String failingUrl) {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
 
                 //显示加载错误页面，(重新加载按钮)
             }
         });
 
-        //给webView 关联 需要JS调用的类
-        webView.setWebChromeClient(new MyWebChromeClient("ADS", JsScope.class));
+
     }
 
     // 自定义 WebChromeClient
@@ -105,7 +109,8 @@ public class WebViewUtils {
         public void onProgressChanged (WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
             // TODO  code
-            // 当进度条走完，才
+            // 当进度条开始走，显示正在加载，进度条走完，才显示webView
+            UIUtils.showToastSafe("当前加载进度" + newProgress);
 
         }
 

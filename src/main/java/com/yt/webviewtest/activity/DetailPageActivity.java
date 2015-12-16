@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.duowan.mobile.netroid.Listener;
 import com.yt.webviewtest.R;
 import com.yt.webviewtest.base.BaseActivity;
 import com.yt.webviewtest.net_volley_netroid.Netroid;
@@ -25,6 +27,10 @@ import com.yt.webviewtest.ui.TouchImageView;
 import com.yt.webviewtest.utils.UIUtils;
 import com.yt.webviewtest.utils.WebViewUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,6 +41,8 @@ import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by Administrator on 2015/12/11.
@@ -54,15 +62,14 @@ public class DetailPageActivity extends BaseActivity {
     @Override
     protected void init() {
 
+        UIUtils.showToastSafe("开始加载详情");
+
         //得到 打开这个详情页的 Intent
         intent = getIntent();
         //这个详情页要加载的 url
         loadUrl = intent.getStringExtra("loadUrl");
         //这是哪一个板块的详情页
         loadCategory = intent.getIntExtra("loadCategory", ConstInfo.JINTAN);
-
-        //初始化这个详情页中的图片预览集合
-        initImagePreviewList();
     }
 
     @Override
@@ -99,7 +106,7 @@ public class DetailPageActivity extends BaseActivity {
         myBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showVPWindow();
+//
                 setExitSwichLayout();
 //                overridePendingTransition(R.anim.setg_pre_in, R.anim.setg_pre_out);
             }
@@ -107,24 +114,27 @@ public class DetailPageActivity extends BaseActivity {
 
         // webView
         webView = (WebView) findViewById(R.id.detailpage_webview);
+
+
+        //给webView 添加一个透明头
+        View detailPageHead = new View(UIUtils.getContext());
+
+        detailPageHead.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                showShareWindow();
+                return true;
+            }
+        });
+        webView.removeAllViews();
+        webView.addView(detailPageHead, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dip2Px(275)));
+
         //给webView设置
         WebViewUtils.webViewBaseSet(webView);
 
         //加载url
         webView.loadUrl(loadUrl);
-        //长按打开分享
-        webView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                UIUtils.showToastSafe("长按分享" + loadUrl);
-
-                //添加一个window
-                showShareWindow();
-
-
-                return true;
-            }
-        });
     }
 
     //添加一个窗体来  分享
@@ -253,6 +263,18 @@ public class DetailPageActivity extends BaseActivity {
 
     //添加一个窗体来  图片预览
     public void showVPWindow(String imgsJson, int index) {
+        //把Json解析成url集合  imagePathList
+        imagePathList = new ArrayList<String>();
+        try {
+            JSONArray jsonArray = new JSONArray(imgsJson);
+            jsonArray.length();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                imagePathList.add(jsonArray.getJSONObject(i).getString("url"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         windowManager = getWindowManager();
         dfWindowView = View.inflate(UIUtils.getContext(), R.layout.imagepreview_window, null);
         ExtendedViewPager evp = (ExtendedViewPager) dfWindowView.findViewById(R.id.evp);
@@ -270,11 +292,48 @@ public class DetailPageActivity extends BaseActivity {
 
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
-                TouchImageView touchImageView = new TouchImageView(UIUtils.getContext());
+
+
+
+
+
                 //通过路径加载图片
-                Netroid.displayImage(imagePathList.get(position), touchImageView);
-                container.addView(touchImageView);
-                return touchImageView;
+                String imagePath = imagePathList.get(position);
+                if (imagePath.endsWith(".gif")) {
+//                    //如果是 gif图片 就创建一个webView来显示
+//                    View view = View.inflate(UIUtils.getContext(), R.layout.test_layout, null);
+//                    WebView imageWebView = (WebView) view.findViewById(R.id.wv);
+//                    imageWebView.getSettings().setBuiltInZoomControls(true);
+//                    imageWebView.getSettings().setSupportZoom(true);
+//                    imageWebView.loadUrl("http://192.168.0.158:8083/gif.html");
+//                    container.addView(view);
+                    //如果是 gif图片就换显示方法
+                    final GifImageView gifImageView = new GifImageView(UIUtils.getContext());
+
+                    NetUtils.getByteByNet("http://pic.joke01.com/uppic/13-05/30/30215236.gif", new Listener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] response) {
+                            try {
+                                GifDrawable gifDrawable = new GifDrawable(response);
+                                gifImageView.setImageDrawable(gifDrawable);
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    gifImageView.setImageResource(R.drawable.ic_launcher);
+//                    gifImageView.set
+//                    Netroid.displayImage("http://pic.joke01.com/uppic/13-05/30/30215236.gif", gifImageView);
+                    container.addView(gifImageView);
+                    return gifImageView;
+                } else {
+                    TouchImageView touchImageView = new TouchImageView(UIUtils.getContext());
+                    Netroid.displayImage(imagePath, touchImageView);
+                    container.addView(touchImageView);
+                    return touchImageView;
+                }
+
             }
 
             @Override
@@ -302,16 +361,6 @@ public class DetailPageActivity extends BaseActivity {
         //设置打开标记
         isWindowViewShow = true;
     }
-
-    //初始化这个详情页中的图片预览集合
-    private void initImagePreviewList() {
-        //初始化图片路径集合
-        imagePathList = new ArrayList<String>();
-        for (int i = 0; i <= 12; i++) {
-            imagePathList.add("assets://test/img" + i + ".jpg");
-        }
-    }
-
 
     //分享方法
     //QQ分享
@@ -351,5 +400,4 @@ public class DetailPageActivity extends BaseActivity {
         platform.share(shareParams);
 
     }
-
 }
