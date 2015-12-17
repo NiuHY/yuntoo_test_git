@@ -3,9 +3,9 @@
    android:shape="oval" >
 
    <!-- 填充色 -->
-   <solid android:color="#ffff0000" ></solid>
+   <solid android:color="#ffFF7D7D" ></solid>
    <size
-      android:height="44dp"
-      android:width="44dp"/>
+      android:height="46dp"
+      android:width="46dp"/>
 
 </shape>

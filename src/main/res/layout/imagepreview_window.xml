@@ -3,10 +3,38 @@
              android:background="#e7000000"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
-
-    <com.yt.webviewtest.ui.ExtendedViewPager
+    <com.cmm.worldartapk.ui.ExtendedViewPager
         android:id="@+id/evp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></com.yt.webviewtest.ui.ExtendedViewPager>
+        android:layout_height="wrap_content"></com.cmm.worldartapk.ui.ExtendedViewPager>
 
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/imagevp_btn_ll"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/imagevp_save"
+            android:layout_margin="5dp"
+            android:text="保存到本地"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/imagevp_add"
+            android:layout_margin="5dp"
+            android:text="添加到收藏夹"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/imagevp_cancel"
+            android:layout_margin="5dp"
+            android:text="取消"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 </FrameLayout>

@@ -1,0 +1,190 @@
+@charset "UTF-8";
+.img-body{
+  background: url(../img/detail.jpg) no-repeat 0 0;
+  background-size: 100% 275px;
+  background-attachment: fixed;
+}
+.detail-head{
+  width: 100%;
+  height: 275px;
+  position: absolute;
+  z-index: 1; 
+  top: 0;
+  overflow: hidden;
+  img{
+    min-height: 100%;
+    width: 100%;
+  }
+}
+.detail-wrap{
+  margin-top:275px;
+  width: 100%; 
+  background:#fff;
+  position: absolute;
+  z-index: 8;
+}
+$border:30px;
+.detail-rotate{
+  width: 0;
+  height: 0;
+  border: solid $border transparent;
+  border-left: 375px solid #f2f2f2;
+  overflow: hidden;
+  transform: translate3d(0,$border,0);
+  margin-top: -2*$border;
+}
+.detail-info{
+  background: #f2f2f2;
+  padding-bottom: 25px;
+  padding-top: 1px;
+  padding-left: 12px;
+  h3{
+    font-size: 18px;
+    padding: 20px 0;
+    margin-left: 25px;
+    border-bottom: solid 1px #000;
+  }
+  p{
+    margin-top: 15px;
+    color: #000;
+    padding-left: 23px;
+    min-height: 15px;
+    font-size: 14px;
+    &.date{
+      background: url(../img/date.png) no-repeat 0 center;
+      background-size: 11px auto;
+    }
+    &.place{
+      background: url(../img/place.png) no-repeat 0 center;
+      background-size: 11px auto;
+    }
+    &.time{
+      background: url(../img/time.png) no-repeat 0 center;
+      background-size: 13px auto;
+    }
+  }
+}
+.share_cont{overflow: hidden; position: relative;}
+.share_img_list{background: url(../img/placehold.png) no-repeat center center; background-size: 58px auto;}
+.share_cont>div {position: absolute; line-height: 24px; font-size: 16px; }
+.share_cont>div.cont_text p{line-height: 28px; }
+.share_cov .img_desc,.share_cont .img_desc{padding: 5px 5px 0; line-height: 16px; font-size: 12px; color: #999; text-align: center;}
+.share_cont figure {display: block; overflow: hidden;}
+.share_cont figure p{font-size: 16px; color: #999; line-height: 24px; text-align: left; ;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.share_story{margin-bottom: 20px;}
+.share_cont .clip_area p{height: 30px;line-height: 30px; width: 100%;}
+.share_cont .clip_area,.share_cov .clip_area{position: absolute;}
+.share_cont img{max-width: none; cursor: pointer;display: block;}
+.share_cont .no_size img{width: 100%; max-width: 100%;}
+.share_cont img + p{margin: 5px;}
+.cont_text{width: 100%; padding:  5px 0;}
+.cont_text p{height: 14px; line-height: normal;}
+.share_arter img{float: left; margin-right: 5px; width: 30px; height: 30px; border-radius: 50%;}
+
+//注册 
+.register{
+  font-size: 30px;
+  color: #2b2b2b;
+  text-align: center;
+  margin-top: 56px;
+  font-weight: bold;
+}
+.reg-content{
+  margin: 63px 24px 0;
+  .reg-input{
+      li{
+        position: relative;
+        width: 100%;
+        border-bottom: solid 1px #bbb;
+        margin-bottom: 80px;
+        @mixin  li-border{
+          position: absolute;
+          width: 1px;
+          height: 4px;
+          content: '';
+          bottom:0;
+          background: #bbb;
+        }
+        &:before{
+         @include  li-border;
+          left: 0;
+        }
+        &:after{
+          @include li-border;
+          right:0;
+        }
+        input{
+          border: none;
+          width: 100%;
+          padding:15px 10px;
+          color:#333;
+          font-size: 28px;
+        }
+        &:last-child{
+          margin-bottom: 0;
+        }
+      }
+  }
+  .reg-access{
+    margin-top: 52px;
+    text-align: right;
+    color: #999;
+    font-size: 28px;
+    .check{
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border:solid 1px #999;
+      vertical-align: middle;
+      background:none;
+    }
+    .check.checked{
+      background: url(../img/access.png) no-repeat center center;
+      background-size: 24px auto; 
+    }
+    a{
+      display: inline-block;
+      vertical-align: middle;
+      font-weight: normal;
+    }
+  }
+  .reg-done{
+    margin-top: 56px;
+    span{
+      display: block;
+      width: 100%;
+      height: 89px;
+      line-height: 89px;
+      text-align: center;
+      font-size: 30px;
+      color:#fff;
+      background: #bbb;
+      border-radius: 5px;
+      &.done-red{
+        background: #ff2942;
+      }
+      &.done-yellow{
+        background: #ffad42;
+      }
+      &.done-bule{
+        background: #3ebdff;
+      }
+    }
+  }
+}
+.reg-error{
+  display: none;
+  width: 100%;
+  height: 90px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ff2942;
+  color: #fff;
+  line-height: 90px;
+  text-align: center;
+  font-size: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+}
